@@ -12,7 +12,7 @@ app.post('/get', (req, res, next) => {
     if (err) throw err;
 
     fs.writeFile(path, req.body.sourceText, {encoding: "utf-8"}, ()=> {
-      exec(`${eSpeakExecutable} -v"${req.body.selectedLanguage}" -q -f "${path}" --ipa"`, ((error, stdout, stderr) => {
+      exec(`${eSpeakExecutable} -v"${req.body.selectedLanguage}" -q -f "${path}" --ipa`, ((error, stdout, stderr) => {
         res.json({out: stdout.trim(), stderr})
       }))
     })
