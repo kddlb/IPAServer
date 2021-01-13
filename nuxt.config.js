@@ -47,6 +47,7 @@ export default {
     height: '15px'
   },
 
+  ssr: false,
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {

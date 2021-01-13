@@ -19,6 +19,16 @@
         <b-card>
           <pre style="white-space: pre-wrap;">{{targetText.out}}</pre>
         </b-card>
+        <h3>Speak IPA</h3>
+        <multiselect :options="speechLanguages"
+                     v-model="selectedSpeechLanguage"
+                     group-values="options"
+                     group-label="label"
+                     label="text"
+                     :allow-empty="false"
+                     track-by="value"></multiselect>
+        <b-button :disabled="isLoading" @click="speak">Speak</b-button><br/>
+        <audio :src="blobUrl" ref="audioPlayer" controls autoplay></audio>
       </b-col>
     </b-row>
   </b-container>
@@ -26,7 +36,10 @@
 
 <script>
 import axios from 'axios'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 export default {
+  components: {Multiselect},
   data() {
     return {
       sourceText: "",
@@ -405,7 +418,24 @@ export default {
           "value": "yue",
           "text": "Chinese (Cantonese)"
         }
-      ].sort((a,b)=>(a.text>b.text)?1:-1)
+      ].sort((a,b)=>(a.text>b.text)?1:-1),
+      speechLanguages: [],
+      selectedSpeechLanguage: {"text":"Aria (Aria, Female, Neural)","value":"en-US-AriaNeural"},
+      blobUrl: null,
+      isLoading: false
+    }
+  },
+  async mounted() {
+    this.speechLanguages = (await axios.get("/api/getLanguages")).data
+  },
+  methods: {
+    async speak() {
+      this.blobUrl = null
+      this.isLoading = true
+      const data = {targetText: this.targetText.out, selectedSpeechLanguage: this.selectedSpeechLanguage.value}
+      const out = ((await axios.post("/api/speak", data, {responseType: 'blob'})).data)
+      this.blobUrl = window.URL.createObjectURL(out)
+      this.isLoading = false
     }
   },
   watch: {
