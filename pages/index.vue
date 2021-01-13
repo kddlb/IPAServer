@@ -17,7 +17,7 @@
       <b-col cols="12" md="6">
         <h2>IPA output</h2>
         <b-card>
-          <pre class="text-wrap">{{targetText.out}}</pre>
+          <pre style="white-space: pre-wrap;">{{targetText.out}}</pre>
         </b-card>
       </b-col>
     </b-row>
