@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -409,16 +410,16 @@ export default {
   },
   watch: {
     async sourceText(newValue) {
-      this.targetText = await this.$axios.$post("/api/get", {
+      this.targetText = (await axios.post("/api/get", {
         sourceText: newValue,
         selectedLanguage: this.selectedLanguage
-      })
+      })).data
     },
     async selectedLanguage(newValue) {
-      this.targetText = await this.$axios.$post("/api/get", {
+      this.targetText = (await axios.post("/api/get", {
         sourceText: this.sourceText,
         selectedLanguage: newValue
-      })
+      })).data
     }
   }
 }
