@@ -19,7 +19,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "lodash": "^4.17.20",
-    "microsoft-cognitiveservices-speech-sdk": "^1.14.1",
+    "microsoft-cognitiveservices-speech-sdk": "^1.23.0",
     "nuxt": "^2.14.6",
     "tmp": "^0.2.1",
     "vue-multiselect": "^2.1.6",
